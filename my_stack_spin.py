@@ -309,7 +309,7 @@ def set_keyframe_to_ease_in_out(obj):
 ################################################################
 
 
-def create_pentagonal_cylinder(
+def create_cylinder(
     vertices=5,
     radius=1,
     location=(0, 0, 0),
@@ -344,7 +344,7 @@ def stack_shapes(vertices):
     z_rotation_step = math.radians(5)
     list_obj = []
     for _ in range(shape_count):
-        obj = create_pentagonal_cylinder(
+        obj = create_cylinder(
             vertices=vertices,
             radius=current_radius,
             location=current_location,
