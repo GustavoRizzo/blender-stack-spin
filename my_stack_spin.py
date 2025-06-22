@@ -359,13 +359,12 @@ def stack_shapes(vertices):
 
 def control_animation(obj, end_frame, vetices):
     obj.keyframe_insert("rotation_euler", frame=1)
-
     # Control rotation
     one_turn = 360/vetices
     obj.rotation_euler.z = math.radians(one_turn * 2)
-
     obj.keyframe_insert("rotation_euler", frame=end_frame)
-
+    # Make the animation smoother
+    set_keyframe_to_ease_in_out(obj)
 
 
 def gen_centerpiece(context):
