@@ -267,7 +267,9 @@ def apply_random_color_material(obj):
     mat = bpy.data.materials.new(name="Material")
     mat.use_nodes = True
     mat.node_tree.nodes["Principled BSDF"].inputs["Base Color"].default_value = color
-    mat.node_tree.nodes["Principled BSDF"].inputs["Specular"].default_value = 0
+    # mat.node_tree.nodes["Principled BSDF"].inputs["Specular"].default_value = 0  # BuG: Blender 4.4
+    mat.node_tree.nodes["Principled BSDF"].inputs["Specular IOR Level"].default_value = 0  # Remove brightness
+    mat.node_tree.nodes["Principled BSDF"].inputs["Roughness"].default_value = 0.8  # Add roughness
 
     obj.data.materials.append(mat)
 
@@ -340,7 +342,7 @@ def stack_shapes():
     z_rotation_step = math.radians(5)
 
     for _ in range(shape_count):
-        create_pentagonal_cylinder(
+        obj = create_pentagonal_cylinder(
             radius=current_radius,
             location=current_location,
             rotation=current_rotation
@@ -348,6 +350,8 @@ def stack_shapes():
         current_location.z += z_location_step
         current_radius += radius_step
         current_rotation.z += z_rotation_step
+        # Apply a random color material to the object
+        apply_random_color_material(obj)
 
 
 def gen_centerpiece(context):
