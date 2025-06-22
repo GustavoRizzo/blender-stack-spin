@@ -307,8 +307,25 @@ def set_keyframe_to_ease_in_out(obj):
 ################################################################
 
 
+def create_pentagonal_cylinder():
+    vertices = 5
+    radius = 1
+    depth = 0.1
+
+    bpy.ops.mesh.primitive_cylinder_add(vertices=vertices, radius=radius, depth=depth)
+
+    # Pega o objeto ativo (ou o utlimo criado)
+    obj = active_object()
+
+    # Arredondando o topo do cilindro
+    bpy.ops.object.modifier_add(type='BEVEL')
+    obj.modifiers["Bevel"].width = 0.02
+
+    return obj
+
+
 def gen_centerpiece(context):
-    pass
+    obj = create_pentagonal_cylinder()
 
 
 def main():
