@@ -357,8 +357,8 @@ def stack_shapes(vertices):
     return list_obj
 
 
-def control_animation(obj, end_frame, vetices):
-    obj.keyframe_insert("rotation_euler", frame=1)
+def control_animation(obj, end_frame, vetices, start_frame):
+    obj.keyframe_insert("rotation_euler", frame=start_frame)
     # Control rotation
     one_turn = 360/vetices
     obj.rotation_euler.z = math.radians(one_turn * 2)
@@ -371,11 +371,13 @@ def gen_centerpiece(context):
     vertices = 5
     list_obj = stack_shapes(vertices)
     end_frame = context["frame_count"] - 10
-    for obj in list_obj:
+    step_start_animation_frame = 5
+    for i, obj in enumerate(list_obj):
         control_animation(
             obj,
             end_frame,
-            vertices
+            vertices,
+            start_frame=i*step_start_animation_frame
         )
 
 
