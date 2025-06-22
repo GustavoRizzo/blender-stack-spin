@@ -205,7 +205,7 @@ def setup_scene(i=0):
     bpy.context.scene.render.ffmpeg.format = "MPEG4"
     bpy.context.scene.render.filepath = f"/tmp/project_{project_name}/loop_{i}.mp4"
 
-    seed = 0
+    seed = 1750635257.1091816  # Set Zero to use a random seed based on the time
     if seed:
         random.seed(seed)
     else:
@@ -270,7 +270,7 @@ def apply_random_color_material(obj):
     # mat.node_tree.nodes["Principled BSDF"].inputs["Specular"].default_value = 0  # BuG: Blender 4.4
     mat.node_tree.nodes["Principled BSDF"].inputs["Specular IOR Level"].default_value = 0  # Remove brightness
     mat.node_tree.nodes["Principled BSDF"].inputs["Roughness"].default_value = 0.8  # Add roughness
-
+    mat.node_tree.nodes["Principled BSDF"].inputs["Metallic"].default_value = 1.0  # Valor máximo para efeito metálico
     obj.data.materials.append(mat)
 
 
