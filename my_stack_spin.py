@@ -329,6 +329,8 @@ def create_pentagonal_cylinder(
     # Bevel the top of the cylinder
     bpy.ops.object.modifier_add(type='BEVEL')
     obj.modifiers["Bevel"].width = 0.02
+    # Apply a random color material to the object
+    apply_random_color_material(obj)
     return obj
 
 
@@ -350,8 +352,6 @@ def stack_shapes():
         current_location.z += z_location_step
         current_radius += radius_step
         current_rotation.z += z_rotation_step
-        # Apply a random color material to the object
-        apply_random_color_material(obj)
 
 
 def gen_centerpiece(context):
