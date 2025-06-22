@@ -310,11 +310,11 @@ def set_keyframe_to_ease_in_out(obj):
 
 
 def create_pentagonal_cylinder(
+    vertices=5,
     radius=1,
     location=(0, 0, 0),
     rotation=(0, 0, 0)
 ):
-    vertices = 5
     depth = 0.1
     # Create a pentagonal cylinder with the specified parameters
     bpy.ops.mesh.primitive_cylinder_add(
@@ -334,7 +334,7 @@ def create_pentagonal_cylinder(
     return obj
 
 
-def stack_shapes():
+def stack_shapes(vertices):
     shape_count = 100
     current_radius = 1
     radius_step = 0.1
@@ -342,9 +342,10 @@ def stack_shapes():
     z_location_step = -0.1
     current_rotation = mathutils.Euler((0, 0, 0))
     z_rotation_step = math.radians(5)
-
+    list_obj = []
     for _ in range(shape_count):
         obj = create_pentagonal_cylinder(
+            vertices=vertices,
             radius=current_radius,
             location=current_location,
             rotation=current_rotation
@@ -352,10 +353,31 @@ def stack_shapes():
         current_location.z += z_location_step
         current_radius += radius_step
         current_rotation.z += z_rotation_step
+        list_obj.append(obj)
+    return list_obj
+
+
+def control_animation(obj, end_frame, vetices):
+    obj.keyframe_insert("rotation_euler", frame=1)
+
+    # Control rotation
+    one_turn = 360/vetices
+    obj.rotation_euler.z = math.radians(one_turn * 2)
+
+    obj.keyframe_insert("rotation_euler", frame=end_frame)
+
 
 
 def gen_centerpiece(context):
-    stack_shapes()
+    vertices = 5
+    list_obj = stack_shapes(vertices)
+    end_frame = context["frame_count"] - 10
+    for obj in list_obj:
+        control_animation(
+            obj,
+            end_frame,
+            vertices
+        )
 
 
 def main():
