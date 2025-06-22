@@ -307,25 +307,51 @@ def set_keyframe_to_ease_in_out(obj):
 ################################################################
 
 
-def create_pentagonal_cylinder():
+def create_pentagonal_cylinder(
+    radius=1,
+    location=(0, 0, 0),
+    rotation=(0, 0, 0)
+):
     vertices = 5
-    radius = 1
     depth = 0.1
-
-    bpy.ops.mesh.primitive_cylinder_add(vertices=vertices, radius=radius, depth=depth)
-
-    # Pega o objeto ativo (ou o utlimo criado)
-    obj = active_object()
-
-    # Arredondando o topo do cilindro
+    # Create a pentagonal cylinder with the specified parameters
+    bpy.ops.mesh.primitive_cylinder_add(
+        vertices=vertices,
+        radius=radius,
+        depth=depth,
+        location=location,
+        rotation=rotation
+    )
+    # Select the newly created object
+    obj = bpy.context.active_object
+    # Bevel the top of the cylinder
     bpy.ops.object.modifier_add(type='BEVEL')
     obj.modifiers["Bevel"].width = 0.02
-
     return obj
 
 
+def stack_shapes():
+    shape_count = 100
+    current_radius = 1
+    radius_step = 0.1
+    current_location = mathutils.Vector((0, 0, 0))
+    z_location_step = -0.1
+    current_rotation = mathutils.Euler((0, 0, 0))
+    z_rotation_step = math.radians(5)
+
+    for _ in range(shape_count):
+        create_pentagonal_cylinder(
+            radius=current_radius,
+            location=current_location,
+            rotation=current_rotation
+        )
+        current_location.z += z_location_step
+        current_radius += radius_step
+        current_rotation.z += z_rotation_step
+
+
 def gen_centerpiece(context):
-    obj = create_pentagonal_cylinder()
+    stack_shapes()
 
 
 def main():
