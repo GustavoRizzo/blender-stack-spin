@@ -177,13 +177,13 @@ def set_scene_props(fps, loop_seconds):
     scene.frame_current = 1
     scene.frame_start = 1
 
-    scene.eevee.use_bloom = True
-    scene.eevee.bloom_intensity = 0.005
+    # scene.eevee.use_bloom = True          # BUG: Blender 4.4
+    # scene.eevee.bloom_intensity = 0.005   # BUG: Blender 4.4
 
     # set Ambient Occlusion properties
     scene.eevee.use_gtao = True
     scene.eevee.gtao_distance = 4
-    scene.eevee.gtao_factor = 5
+    # scene.eevee.gtao_factor = 5           # BUG: Blender 4.4
 
     scene.eevee.taa_render_samples = 64
 
